@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,75 +11,61 @@ public class Main {
 
         do {
             placeholder();
-            menu = input.nextInt();
+            menu = getIntInput(input);
 
             if (menu == 1) {
                 inputMenu();
-                inputMenu = input.nextInt();
+                inputMenu = getIntInput(input);
 
                 do {
-                    if (inputMenu == 1) {
-                        double radius;
-                        do {
-                            coloring();
-                            colored = input.nextInt();
-                        } while (colored != 1 && colored != 2);
-
-                        System.out.print("Input The Radius of Circle : ");
-                        radius = input.nextDouble();
-                        Circle circle = new Circle(radius, colored);
-                        (colored == 1 ? isColor : notColor).add(circle.area);
-
-                    } else if (inputMenu == 2) {
+                    if (inputMenu >= 1 && inputMenu <= 4) {
                         double width, height;
+
                         do {
                             coloring();
-                            colored = input.nextInt();
+                            colored = getIntInput(input);
                         } while (colored != 1 && colored != 2);
 
-                        System.out.print("Input The Width of Triangle : ");
-                        width = input.nextDouble();
-                        System.out.print("Input The Height of Triangle : ");
-                        height = input.nextDouble();
-                        Triangle triangle = new Triangle(height, width, colored);
-
-                        (colored == 1 ? isColor : notColor).add(triangle.area);
-                    } else if (inputMenu == 3) {
-                        double upperWidth, lowerWidth, height;
-                        do {
-                            coloring();
-                            colored = input.nextInt();
-                        } while (colored != 1 && colored != 2);
-
-                        System.out.print("Input The Upper Width of Trapezoid : ");
-                        upperWidth = input.nextDouble();
-                        System.out.print("Input The Lower Width of Trapezoid : ");
-                        lowerWidth = input.nextDouble();
-                        System.out.print("Input The Height of Trapezoid : ");
-                        height = input.nextDouble();
-                        Trapezoid trapezoid = new Trapezoid(upperWidth, lowerWidth, height, colored);
-
-                        (colored == 1 ? isColor : notColor).add(trapezoid.area);
-                    } else if (inputMenu == 4) {
-                        double width, height;
-                        do {
-                            coloring();
-                            colored = input.nextInt();
-                        } while (colored != 1 && colored != 2);
-
-                        System.out.print("Input The Width of Square : ");
-                        width = input.nextDouble();
-                        System.out.print("Input The Height of Square : ");
-                        height = input.nextDouble();
-                        Square square = new Square(width , height , colored);
-
-                        (colored == 1 ? isColor : notColor).add(square.area);
+                        switch (inputMenu) {
+                            case 1:
+                                System.out.print("Input The Radius of Circle : ");
+                                double radius = getDoubleInput(input);
+                                Circle circle = new Circle(radius, colored);
+                                (colored == 1 ? isColor : notColor).add(circle.area);
+                                break;
+                            case 2:
+                                System.out.print("Input The Width of Triangle : ");
+                                width = getDoubleInput(input);
+                                System.out.print("Input The Height of Triangle : ");
+                                height = getDoubleInput(input);
+                                Triangle triangle = new Triangle(height, width, colored);
+                                (colored == 1 ? isColor : notColor).add(triangle.area);
+                                break;
+                            case 3:
+                                System.out.print("Input The Upper Width of Trapezoid : ");
+                                double upperWidth = getDoubleInput(input);
+                                System.out.print("Input The Lower Width of Trapezoid : ");
+                                double lowerWidth = getDoubleInput(input);
+                                System.out.print("Input The Height of Trapezoid : ");
+                                double trapHeight = getDoubleInput(input);
+                                Trapezoid trapezoid = new Trapezoid(upperWidth, lowerWidth, trapHeight, colored);
+                                (colored == 1 ? isColor : notColor).add(trapezoid.area);
+                                break;
+                            case 4:
+                                System.out.print("Input The Width of Square : ");
+                                width = getDoubleInput(input);
+                                System.out.print("Input The Height of Square : ");
+                                height = getDoubleInput(input);
+                                Square square = new Square(width, height, colored);
+                                (colored == 1 ? isColor : notColor).add(square.area);
+                                break;
+                        }
                     } else {
                         System.out.println("Invalid input. Try Again!");
                     }
 
-                    System.out.print("Enter 0  number to continue:");
-                    inputMenu = input.nextInt();
+                    System.out.print("Enter 0 to continue: ");
+                    inputMenu = getIntInput(input);
                 } while (inputMenu != 0);
 
             } else if (menu == 2) {
@@ -90,8 +77,9 @@ public class Main {
                 System.out.println("Invalid input. Try Again!");
             }
 
-        } while (menu <= 1 || menu >= 3);
+        } while (true);
     }
+
     private static void placeholder() {
         System.out.println("AREA CALCULATOR");
         System.out.println("1. Input ");
@@ -99,6 +87,7 @@ public class Main {
         System.out.println("3. Exit");
         System.out.print(">> ");
     }
+
     private static void inputMenu() {
         System.out.println("1. Circle");
         System.out.println("2. Triangle");
@@ -106,10 +95,39 @@ public class Main {
         System.out.println("4. Square");
         System.out.print(">> ");
     }
+
     private static void coloring() {
         System.out.println("Is it the colored Area ? ");
         System.out.println("1. Yes");
         System.out.println("2. No");
         System.out.print(">> ");
+    }
+
+    private static int getIntInput(Scanner scanner) {
+        int input;
+        while (true) {
+            try {
+                input = scanner.nextInt();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // Clear the invalid input from the buffer
+            }
+        }
+        return input;
+    }
+
+    private static double getDoubleInput(Scanner scanner) {
+        double input;
+        while (true) {
+            try {
+                input = scanner.nextDouble();
+                break;
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a number.");
+                scanner.next(); // Clear the invalid input from the buffer
+            }
+        }
+        return input;
     }
 }
