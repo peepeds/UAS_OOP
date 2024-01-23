@@ -90,7 +90,7 @@ public class Main {
                 System.out.println("Invalid input. Try Again!");
             }
 
-        } while (menu >= 1 && menu <= 3);
+        } while (menu <= 1 || menu >= 3);
     }
     private static void placeholder() {
         System.out.println("AREA CALCULATOR");
