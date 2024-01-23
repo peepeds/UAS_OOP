@@ -63,9 +63,7 @@ public class Main {
                     } else {
                         System.out.println("Invalid input. Try Again!");
                     }
-
-                    System.out.print("Enter 0 to continue: ");
-                    inputMenu = getIntInput(input);
+                    inputMenu = 0 ;
                 } while (inputMenu != 0);
 
             } else if (menu == 2) {
